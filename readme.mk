@@ -1,2 +1,2 @@
 Her ses flowchartet for den oprindelige udgave af koden som blev udleveret i opgavebeskrivelsen:
-![alt text](https://github.com/MarcShade/fodboldtur/blob/readme_images/oprindeligt_program.jpg "Snapshot of the game")
+![alt text](https://github.com/MarcShade/fodboldtur/blob/main/readme_images/oprindeligt_program.jpg "Snapshot of the game")
