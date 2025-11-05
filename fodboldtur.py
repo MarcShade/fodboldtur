@@ -1,9 +1,18 @@
 import pickle
+import tkinter as tk
+
+running = True
 
 filename = 'betalinger.pk'
 
 fodboldtur = {}
 navne = []
+
+with open(filename, 'rb') as infile:
+    fodboldtur = pickle.load(infile)
+
+for item in fodboldtur.items():
+    navne.append(item[0])
 
 egenbetaling = 4500
 
@@ -19,17 +28,22 @@ def printliste():
 
 def modtag_betaling():
     while True:
-        navn = input("Indtast navn ('r' for at returnere til menuen): ")
+        navn = input("Indtast navn ('r' for at returnere til menuen): ").title()
         if navn == "r":
             return
         if navn in navne:
             break
         else:
             print("Navnet findes ikke")
-
-    beløb = float(input("Indtast beløbet der betales: "))
-    fodboldtur[navn] += beløb
-    print(f"{navn} har nu betalt i alt {fodboldtur[navn]} DKK")
+    
+    while True:
+        try:
+            beløb = float(input("Indtast beløbet der betales: "))
+            fodboldtur[navn] += beløb
+            print(f"{navn} har nu betalt i alt {fodboldtur[navn]} DKK")
+            return
+        except ValueError:
+            print("Indtast en gyldig værdi for beløbet.")
 
 def shame():
     sorteret_liste = sorted(fodboldtur.items(), key=lambda x: x[1])[:3]
@@ -37,13 +51,11 @@ def shame():
     for i, (navn, beløb) in enumerate(sorteret_liste, start=1):
         print(f"    {i}. {navn} med {beløb} kr")
 
-with open(filename, 'rb') as infile:
-    fodboldtur = pickle.load(infile)
+root = tk.Tk()
+root.title("Regnskabsværktøj til fodboldtur")
 
-for item in fodboldtur.items():
-    navne.append(item[0])
 
-while True:
+while running:
     print("\nMENU")
     print("1: Print liste")
     print("2: Afslut program")
