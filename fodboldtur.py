@@ -19,7 +19,6 @@ def gem_data():
 
 def afslut():
     gem_data()
-    messagebox.showinfo("Afslutning", "Programmet er afsluttet!")
     root.destroy()
 
 def vis_oversigt():
@@ -30,7 +29,7 @@ def vis_oversigt():
     for navn, beløb in fodboldtur.items():
         tekst.insert(tk.END, f"{navn} har betalt {beløb} DKK og mangler {egenbetaling - beløb} DKK\n")
     tekst.config(state='disabled')
-    tk.Button(root, text="Tilbage til menu", command=menu).pack(pady=10)
+    tk.Button(root, text="Tilbage til menu", command=vis_menu).pack(pady=10)
 
 def registrer_betaling():
     skift_vindue()
@@ -45,21 +44,21 @@ def registrer_betaling():
     beløb_entry = tk.Entry(root)
     beløb_entry.pack(pady=5)
 
-    def registrér():
+    def gem_betaling():
         navn = navn_var.get()
         try:
             beløb = float(beløb_entry.get())
             fodboldtur[navn] += beløb
             gem_data()
             messagebox.showinfo("Succes", f"{navn} har nu betalt i alt {fodboldtur[navn]} DKK.")
-            menu()
+            vis_menu()
         except ValueError:
             messagebox.showerror("Fejl", "Indtast et gyldigt tal.")
         except KeyError:
             messagebox.showerror("Fejl", "Navnet findes ikke i listen.")
 
-    tk.Button(root, text="Gem betaling", command=registrér).pack(pady=5)
-    tk.Button(root, text="Tilbage til menu", command=menu).pack(pady=10)
+    tk.Button(root, text="Gem betaling", command=gem_betaling).pack(pady=5)
+    tk.Button(root, text="Tilbage til menu", command=vis_menu).pack(pady=10)
 
 def shame():
     skift_vindue()
@@ -73,13 +72,13 @@ def shame():
     else:
         tekst.insert(tk.END, "Ingen data tilgængelig.")
     tekst.config(state='disabled')
-    tk.Button(root, text="Tilbage til menu", command=menu).pack(pady=10)
+    tk.Button(root, text="Tilbage til menu", command=vis_menu).pack(pady=10)
 
 def skift_vindue():
     for widget in root.winfo_children():
         widget.destroy()
 
-def menu():
+def vis_menu():
     skift_vindue()
     tk.Label(root, text="MENU", font=("Arial", 20, "bold")).pack(pady=20)
     tk.Button(root, text="Oversigt over betalinger", width=25, command=vis_oversigt).pack(pady=5)
@@ -90,5 +89,5 @@ def menu():
 root = tk.Tk()
 root.title("Regnskabsværktøj til fodboldtur")
 root.geometry("500x500")
-menu()
+vis_menu()
 root.mainloop()
